@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Snake Game</title>
+    <!-- importing tailwind for css styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- customizing tailwind colors -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#10b981",
+                        secondary: "#f43f5e",
+                        background: "#f8fafc",
+                        surface: "#ffffff",
+                        border: "#e2e8f0"
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="bg-background min-h-screen flex flex-col items-center p-4 md:p-8">
+    <div class="w-full max-w-2xl bg-surface rounded-xl shadow-lg overflow-hidden">
+        <!-- game header -->
+        <div class="bg-gradient-to-r from-primary to-green-400 p-6 text-white">
+            <h1 class="text-3xl font-bold text-center">Snake Game</h1>
+        </div>
+
+        <!-- game container -->
+        <main class="p-6 flex flex-col items-center gap-8">
+            <!-- game Stats -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 w-full">
+                <div class="bg-gray-50 p-3 rounded-lg text-center">
+                    <p class="text-sm text-gray-500">Score</p>
+                    <p class="text-2xl font-bold text-primary" id="score">0</p>
+                </div>
+                <div class="bg-gray-50 p-3 rounded-lg text-center">
+                    <p class="text-sm text-gray-500">Direction</p>
+                    <p class="text-lg font-medium capitalize" id="direction">right</p>
+                </div>
+                <div class="bg-gray-50 p-3 rounded-lg text-center">
+                    <p class="text-sm text-gray-500">Snake</p>
+                    <p class="text-lg">🐍(<span id="snakeX"></span>,<span id="snakeY"></span>)</p>
+                </div>
+                <div class="bg-gray-50 p-3 rounded-lg text-center">
+                    <p class="text-sm text-gray-500">Apple</p>
+                    <p class="text-lg">🍎(<span id="appleX"></span>,<span id="appleY"></span>)</p>
+                </div>
+            </div>
+
+            <!-- game grid -->
+            <div id="gameGrid"
+                class="grid grid-cols-10 border border-border rounded-lg overflow-hidden w-full max-w-[640px] aspect-square">
+            </div>
+
+            <!-- controls -->
+            <div class="flex flex-col items-center gap-4">
+                <p class="text-gray-500 text-sm">Use arrow keys to play</p>
+                <div class="grid grid-cols-3 gap-2">
+                    <div></div>
+                    <kbd
+                        class="flex justify-center items-center h-12 w-12 bg-gray-100 rounded-lg border border-gray-200 shadow-sm">
+                        ⬆️
+                    </kbd>
+                    <div></div>
+                    <kbd
+                        class="flex justify-center items-center h-12 w-12 bg-gray-100 rounded-lg border border-gray-200 shadow-sm">
+                        ⬅️
+                    </kbd>
+                    <kbd
+                        class="flex justify-center items-center h-12 w-12 bg-gray-100 rounded-lg border border-gray-200 shadow-sm">
+                        ⬇️
+                    </kbd>
+                    <kbd
+                        class="flex justify-center items-center h-12 w-12 bg-gray-100 rounded-lg border border-gray-200 shadow-sm">
+                        ➡️
+                    </kbd>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- game over modal -->
+    <div id="gameOverModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-xl p-8 max-w-md w-full text-center shadow-xl">
+            <h2 class="text-3xl font-bold mb-4">Game Over!</h2>
+            <p class="text-xl mb-6">Your score: <span id="finalScore">0</span></p>
+            <button id="restartButton"
+                class="bg-primary hover:bg-green-600 text-white font-bold py-3 px-6 rounded-lg transition-colors">
+                Play Again
+            </button>
+        </div>
+    </div>
+
+    <p id="apple" class="hidden">🍎</p>
+
+    <!-- game script -->
+    <script src="main.js"></script>
+</body>
+
+</html>

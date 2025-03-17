@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rock Paper Scissor</title>
+    <!-- importing tailwind for css styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body>
+    <main class="flex flex-col gap-4 items-center p-10 container mx-auto">
+        <p class="text-3xl font-semibold">Choose one </p>
+
+        <div class="flex gap-4">
+            <div class="border w-64 h-64 rounded-md flex items-center justify-center p-1 hover:bg-gray-100 cursor-pointer"
+                onclick="rockPaperScissor('rock')">
+                <img src="https://static.vecteezy.com/system/resources/previews/048/344/473/non_2x/large-heavy-rock-stone-isolated-on-background-png.png"
+                    alt="">
+            </div>
+
+            <div class="border w-64 h-64 rounded-md flex items-center justify-center p-1 hover:bg-gray-100 cursor-pointer"
+                onclick="rockPaperScissor('paper')">
+                <img src="https://static.vecteezy.com/system/resources/thumbnails/018/795/027/small/white-notebook-paper-with-all-edges-ripped-png.png"
+                    alt="">
+            </div>
+
+            <div class="border w-64 h-64 rounded-md flex items-center justify-center p-1 hover:bg-gray-100 cursor-pointer"
+                onclick="rockPaperScissor('scissor')">
+                <img src="https://www.greeninterio.com/wp-content/uploads/2015/11/GISPSKKVS.png" alt="">
+            </div>
+        </div>
+
+        <p id="playerPlay" class="text-3xl font-semibold">Your play:</p>
+        <p id="cpuPlay" class="text-3xl font-semibold">CPU play:</p>
+
+        <p id="message" class="text-2xl font-semibold"></p>
+    </main>
+
+    <script src="main.js"></script>
+</body>
+
+</html>
