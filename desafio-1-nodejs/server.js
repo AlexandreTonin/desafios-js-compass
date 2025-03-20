@@ -3,6 +3,8 @@ import { createServer } from 'node:http'
 const hostname = 'localhost'
 const port = 3000
 
+let count = 0
+
 const server = createServer((req, res) => {
     const { method } = req;
 
@@ -54,7 +56,36 @@ const server = createServer((req, res) => {
             }
         }
     } else if (url.pathname === '/count' && method === 'POST') {
+        // Verificando se o Content-Type é application/json
+        if (req.headers['content-type'] !== 'application/json') {
+            res.writeHead(415); // 415 = Unsupported Media Type
+            return res.end(JSON.stringify({ error: 'Only application/json is allowed.' }));
+        }
 
+        let body = '';
+
+        req.on('data', chunk => {
+            body += chunk.toString();
+        });
+
+        req.on('end', () => {
+            try {
+                const parsedBody = JSON.parse(body);
+
+                // validando se o input é número com regex
+                if (!/^\d+$/.test(parsedBody.incrementBy)) {
+                    throw new Error('Invalid input');
+                }
+
+                count = count + Number(parsedBody.incrementBy)
+
+                res.writeHead(200);
+                res.end(JSON.stringify({ counter: count }));
+            } catch (error) {
+                res.writeHead(400);
+                res.end(JSON.stringify({ error: error.message }))
+            }
+        });
     }
 })
 
