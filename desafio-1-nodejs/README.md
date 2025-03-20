@@ -5,6 +5,7 @@ Este é um servidor HTTP simples criado usando o módulo `http` do Node.js. Ele 
 - **Health Check**: Um endpoint simples que retorna um JSON indicando que o servidor está funcionando.
 - **Is Prime Number**: Um endpoint que verifica se um número é primo. Ele espera um parâmetro de consulta `number` e retorna `true` ou `false` dependendo se o número é primo ou não.
 - **Count**: Um endpoint que incrementa um contador com base no valor fornecido no corpo da requisição. O corpo da requisição deve ser um JSON com a chave `incrementBy`.
+- **Stock Insight**: Um endpoint que obtém o preço do bitcoin da API coingecko. Ele espera um parâmetro de `currency` e retorna o preço do bitcoin baseado na currency e uma sugestão de compra.
 
 Cada seção inclui exemplos de como usar `curl` para fazer as requisições e as respostas esperadas. Isso deve ajudar os usuários a entender rapidamente como interagir com a API.
 
@@ -109,5 +110,55 @@ curl -X POST http://localhost:3000/count \
 ```bash
 {
   "error": "Invalid input"
+}
+```
+
+### 4. Stock Insight
+
+**Endpoint:** `GET /stock-insight?currency=<currency>`
+
+**Exemplo de requisição (currency padrão usd)**
+
+```bash
+curl -X GET http://localhost:3000/stock-insight \
+-H "Content-Type: application/json" \
+```
+
+**Resposta esperada:**
+
+```bash
+{
+  "btc_price": 84145,
+  "currency": "usd",
+  "suggestion": "Bitcoin está caro. Pode ser melhor esperar."
+}
+```
+
+ou 
+
+```bash
+curl -X GET http://localhost:3000/stock-insight?currency=brl \
+-H "Content-Type: application/json" \
+```
+
+```bash
+{
+  "btc_price": 477436,
+  "currency": "brl",
+  "suggestion": "Bitcoin está caro. Pode ser melhor esperar."
+}
+```
+
+Exemplo de requisição com entrada inválida:
+```bash
+curl -X GET http://localhost:3000/stock-insight?currency=abc \
+-H "Content-Type: application/json" \
+```
+
+**Resposta esperada:**
+
+```bash
+{
+  "error": "Invalid Currency"
 }
 ```
