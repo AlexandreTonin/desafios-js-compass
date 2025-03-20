@@ -5,7 +5,13 @@ const port = 3000
 
 let count = 0
 
-const server = createServer((req, res) => {
+async function bitcoinAPI(currency) {
+    const response = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=${currency}`)
+    const data = await response.json()
+    return data
+}
+
+const server = createServer(async (req, res) => {
     const { method } = req;
 
     const url = new URL(req.url, `http://${hostname}:${port}`)
@@ -86,6 +92,36 @@ const server = createServer((req, res) => {
                 res.end(JSON.stringify({ error: error.message }))
             }
         });
+    } else if (url.pathname === '/stock-insight' && method === 'GET') {
+        try {
+            // capturando query params para obter a currency
+            const queryParams = Object.fromEntries(url.searchParams);
+            const currency = queryParams.currency || 'usd';
+
+            // validando a currency passada na url
+            if (!['usd', 'brl'].includes(currency)) {
+                throw new Error('Invalid Currency');
+            }
+
+            // obtendo os dados da API do bitcoin
+            const data = await bitcoinAPI(currency);
+            const btcPrice = data.bitcoin[currency];
+
+            // definindo a sugestão com base no preço
+            const suggestion = currency === 'brl'
+                ? btcPrice < 300000 ? 'Bom momento para compra!'
+                    : btcPrice <= 450000 ? 'Preço razoável. Avalie antes de comprar.'
+                        : 'Bitcoin está caro. Pode ser melhor esperar.'
+                : btcPrice < 60000 ? 'Bom momento para compra!'
+                    : btcPrice <= 80000 ? 'Preço razoável. Avalie antes de comprar.'
+                        : 'Bitcoin está caro. Pode ser melhor esperar.';
+
+            res.writeHead(200);
+            res.end(JSON.stringify({ btc_price: btcPrice, currency, suggestion }));
+        } catch (error) {
+            res.writeHead(400);
+            res.end(JSON.stringify({ error: error.message }))
+        }
     }
 })
 
