@@ -8,7 +8,11 @@
     "dev": "nodemon src/server.js",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "migrate": "node-pg-migrate up -m src/infra/db/migrations -c src/migration.config.js",
+    "migrate:down": "node-pg-migrate down -c src/migration.config.js",
+    "migrate:create": "node-pg-migrate create -m src/infra/db/migrations -c src/migration.config.js",
+    "migrate:reset": "node-pg-migrate reset -c src/migration.config.js"
   },
   "keywords": [],
   "author": "Alexandre Tonin",
@@ -18,6 +22,7 @@
   "dependencies": {
     "dotenv": "^16.4.7",
     "express": "^5.1.0",
+    "node-pg-migrate": "^7.9.1",
     "pg": "^8.14.1",
     "pino": "^9.6.0",
     "pino-http": "^10.4.0",
