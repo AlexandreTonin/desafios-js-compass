@@ -12,8 +12,19 @@ class UserRepository {
 
     return result.rows[0];
   }
-  async getBalance() {}
+
+  async getBalance(userId) {
+    const query = `
+      SELECT sum(balance) as balance FROM accounts WHERE user_id = $1
+    `;
+
+    const result = await database.query(query, [userId]);
+
+    return result.rows[0];
+  }
+
   async getStatement() {}
+
   async getAccounts(userId) {
     const query = `
       SELECT * FROM accounts WHERE user_id = $1
