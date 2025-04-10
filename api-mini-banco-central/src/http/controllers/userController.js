@@ -33,7 +33,37 @@ const userController = {
     }
   },
 
-  async createTransaction(req, res) {},
+  async createTransaction(req, res) {
+    const userId = req.params.id;
+    const { fromAccountId, toAccountId, amount, description } = req.body;
+
+    const data = {
+      userId,
+      fromAccountId,
+      toAccountId,
+      amount,
+      description,
+    };
+
+    try {
+      const transaction = await userService.createTransaction(data);
+
+      res.status(200).json({
+        success: true,
+        data: transaction,
+      });
+    } catch (error) {
+      const status = error.status || 500;
+      const message = error.message || 'Internal Server Error';
+
+      logger.error(error, message);
+
+      return res.status(status).json({
+        success: false,
+        message,
+      });
+    }
+  },
 
   async getBalance(req, res) {
     const userId = req.params.id;

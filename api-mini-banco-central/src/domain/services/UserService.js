@@ -1,5 +1,6 @@
 import { UserRepository } from '../repositories/UserRepository.js';
 import { Account } from '../entities/Account.js';
+import { Transaction } from '../entities/Transaction.js';
 
 class UserService {
   constructor() {
@@ -31,6 +32,54 @@ class UserService {
 
     const account = new Account(data);
     return await this.userRepository.createAccount(account);
+  }
+
+  async createTransaction(data) {
+    if (
+      !data ||
+      !data.userId ||
+      !data.fromAccountId ||
+      !data.toAccountId ||
+      !data.amount
+    ) {
+      const error = new Error(
+        'Missing required fields "fromAccountId", "toAccountId", "amount"',
+      );
+      error.status = 400;
+      throw error;
+    }
+
+    try {
+      const userIsOwnershipOfAccount =
+        await this.userRepository.checkAccountOwnership(
+          data.fromAccountId,
+          data.userId,
+        );
+
+      if (!userIsOwnershipOfAccount) {
+        const error = new Error('Account not linked to the user');
+        error.status = 401;
+        throw error;
+      }
+
+      const hasEnoughBalance = await this.userRepository.getAccountBalance(
+        data.fromAccountId,
+      );
+
+      if (hasEnoughBalance < data.amount) {
+        const error = new Error(
+          'Insufficient balance to complete this transaction',
+        );
+        error.status = 400;
+        throw error;
+      }
+
+      const transaction = new Transaction(data);
+
+      return await this.userRepository.createTransaction(transaction);
+    } catch (error) {
+      throw error;
+    }
   }
 
   async getBalance(data) {
