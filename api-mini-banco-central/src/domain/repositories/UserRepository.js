@@ -14,22 +14,37 @@ class UserRepository {
   }
 
   async getBalance(data) {
-    let query = `
+    let accountsQuery = `
+      SELECT institutions.name as institution, accounts.balance FROM accounts 
+      INNER JOIN institutions ON accounts.institution_id = institutions.id 
+      WHERE user_id = $1
+    `;
+
+    let balanceQuery = `
       SELECT sum(balance) as balance FROM accounts 
       INNER JOIN institutions ON accounts.institution_id = institutions.id 
       WHERE user_id = $1
     `;
 
     if (data.institution) {
-      query += `AND unaccent(institutions.name) ILIKE unaccent($2)`;
+      balanceQuery += `AND unaccent(institutions.name) ILIKE unaccent($2)`;
+      accountsQuery += `AND unaccent(institutions.name) ILIKE unaccent($2)`;
     }
 
-    const result = await database.query(
-      query,
+    const accountsResult = await database.query(
+      accountsQuery,
       !data.institution ? [data.userId] : [data.userId, data.institution],
     );
 
-    return result.rows[0];
+    const balanceResult = await database.query(
+      balanceQuery,
+      !data.institution ? [data.userId] : [data.userId, data.institution],
+    );
+
+    return {
+      total_balance: balanceResult.rows[0].balance,
+      accounts: accountsResult.rows,
+    };
   }
 
   async getStatement() {}
