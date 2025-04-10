@@ -32,7 +32,9 @@ const userController = {
       });
     }
   },
+
   async createTransaction(req, res) {},
+
   async getBalance(req, res) {
     const userId = req.params.id;
     const institution = req.query.instituicao;
@@ -61,6 +63,7 @@ const userController = {
       });
     }
   },
+
   async getStatement(req, res) {},
 };
 

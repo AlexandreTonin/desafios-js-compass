@@ -41,7 +41,15 @@ class UserService {
     }
 
     try {
-      return await this.userRepository.getBalance(data);
+      const balance = await this.userRepository.getBalance(data);
+
+      if (balance.balance == null) {
+        const error = new Error('User or Institution not found');
+        error.status = 404;
+        throw error;
+      }
+
+      return balance;
     } catch (error) {
       throw error;
     }
