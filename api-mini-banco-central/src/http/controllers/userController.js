@@ -48,7 +48,7 @@ const userController = {
     try {
       const transaction = await userService.createTransaction(data);
 
-      res.status(200).json({
+      res.status(201).json({
         success: true,
         data: transaction,
       });
@@ -94,7 +94,31 @@ const userController = {
     }
   },
 
-  async getStatement(req, res) {},
+  async getStatement(req, res) {
+    const userId = req.params.id;
+    const institution = req.query.instituicao;
+
+    const data = { userId, institution };
+
+    try {
+      const statement = await userService.getStatement(data);
+
+      res.status(200).json({
+        success: true,
+        data: statement,
+      });
+    } catch (error) {
+      const status = error.status || 500;
+      const message = error.message || 'Internal Server Error';
+
+      logger.error(error, message);
+
+      return res.status(status).json({
+        success: false,
+        message,
+      });
+    }
+  },
 };
 
 export { userController };

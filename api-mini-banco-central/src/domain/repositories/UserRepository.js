@@ -86,7 +86,46 @@ class UserRepository {
     };
   }
 
-  async getStatement() {}
+  async getStatement(userId, institution) {
+    let query = `
+      SELECT 
+        transactions.*,
+        from_acc.user_id AS from_user_id,
+        to_acc.user_id AS to_user_id,
+        from_inst.name AS from_institution,
+        to_inst.name AS to_institution,
+        CASE 
+          WHEN from_acc.user_id = $1 THEN transactions.amount 
+          ELSE 0 
+        END AS sent_amount,
+        CASE 
+          WHEN to_acc.user_id = $1 THEN transactions.amount 
+          ELSE 0 
+        END AS received_amount
+      FROM transactions
+      INNER JOIN accounts AS from_acc ON transactions.from_account_id = from_acc.id
+      INNER JOIN accounts AS to_acc ON transactions.to_account_id = to_acc.id
+      INNER JOIN institutions AS from_inst ON from_acc.institution_id = from_inst.id
+      INNER JOIN institutions AS to_inst ON to_acc.institution_id = to_inst.id
+      WHERE (from_acc.user_id = $1 OR to_acc.user_id = $1)
+  `;
+
+    if (institution) {
+      query += `
+        AND (
+          unaccent(from_inst.name) ILIKE unaccent($2)
+          OR unaccent(to_inst.name) ILIKE unaccent($2)
+        )
+    `;
+    }
+
+    const result = await database.query(
+      query,
+      institution ? [userId, institution] : [userId],
+    );
+
+    return result.rows;
+  }
 
   async getAccounts(userId) {
     const query = `

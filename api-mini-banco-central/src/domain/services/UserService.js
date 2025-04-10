@@ -104,7 +104,35 @@ class UserService {
     }
   }
 
-  async getStatement() {}
+  async getStatement(data) {
+    if (!data || !data.userId) {
+      const error = new Error('Missing required field "userId"');
+      error.status = 400;
+      throw error;
+    }
+
+    const { userId, institution } = data;
+
+    try {
+      const statement = await this.userRepository.getStatement(
+        userId,
+        institution,
+      );
+
+      const received_amount = statement.reduce(
+        (acc, current_value) => acc + parseFloat(current_value.received_amount),
+        0,
+      );
+      const sent_amount = statement.reduce(
+        (acc, current_value) => acc + parseFloat(current_value.sent_amount),
+        0,
+      );
+
+      return { received_amount, sent_amount, statement };
+    } catch (error) {
+      throw error;
+    }
+  }
 }
 
 export { UserService };
