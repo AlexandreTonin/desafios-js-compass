@@ -33,15 +33,15 @@ class UserService {
     return await this.userRepository.createAccount(account);
   }
 
-  async getBalance(userId) {
-    if (!userId) {
+  async getBalance(data) {
+    if (!data.userId) {
       const error = new Error('userId is required');
       error.status = 400;
       throw error;
     }
 
     try {
-      return await this.userRepository.getBalance(userId);
+      return await this.userRepository.getBalance(data);
     } catch (error) {
       throw error;
     }

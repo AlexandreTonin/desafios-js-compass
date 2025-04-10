@@ -35,11 +35,17 @@ const userController = {
   async createTransaction(req, res) {},
   async getBalance(req, res) {
     const userId = req.params.id;
+    const institution = req.query.instituicao;
+
+    const data = {
+      userId,
+      institution,
+    };
 
     try {
-      const balance = await userService.getBalance(userId);
-      console.log(balance);
-      res.status(201).json({
+      const balance = await userService.getBalance(data);
+
+      res.status(200).json({
         success: true,
         data: balance,
       });

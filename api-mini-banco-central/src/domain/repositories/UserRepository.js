@@ -13,12 +13,21 @@ class UserRepository {
     return result.rows[0];
   }
 
-  async getBalance(userId) {
-    const query = `
-      SELECT sum(balance) as balance FROM accounts WHERE user_id = $1
+  async getBalance(data) {
+    let query = `
+      SELECT sum(balance) as balance FROM accounts 
+      INNER JOIN institutions ON accounts.institution_id = institutions.id 
+      WHERE user_id = $1
     `;
 
-    const result = await database.query(query, [userId]);
+    if (data.institution) {
+      query += `AND unaccent(institutions.name) ILIKE unaccent($2)`;
+    }
+
+    const result = await database.query(
+      query,
+      !data.institution ? [data.userId] : [data.userId, data.institution],
+    );
 
     return result.rows[0];
   }
