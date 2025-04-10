@@ -13,33 +13,36 @@ class UserRepository {
     return result.rows[0];
   }
 
-  async getBalance(data) {
-    let accountsQuery = `
-      SELECT institutions.name as institution, accounts.balance FROM accounts 
-      INNER JOIN institutions ON accounts.institution_id = institutions.id 
+  async getBalance(account) {
+    const { userId, institution } = account;
+    const hasInstitution = !!institution;
+
+    const params = hasInstitution ? [userId, institution] : [userId];
+
+    const baseQuery = `
+      FROM accounts
+      INNER JOIN institutions ON accounts.institution_id = institutions.id
       WHERE user_id = $1
     `;
 
-    let balanceQuery = `
-      SELECT sum(balance) as balance FROM accounts 
-      INNER JOIN institutions ON accounts.institution_id = institutions.id 
-      WHERE user_id = $1
+    const filter = hasInstitution
+      ? `AND unaccent(institutions.name) ILIKE unaccent($2)`
+      : '';
+
+    const accountsQuery = `
+      SELECT institutions.name AS institution, accounts.balance
+      ${baseQuery} ${filter}
     `;
 
-    if (data.institution) {
-      balanceQuery += `AND unaccent(institutions.name) ILIKE unaccent($2)`;
-      accountsQuery += `AND unaccent(institutions.name) ILIKE unaccent($2)`;
-    }
+    const balanceQuery = `
+      SELECT SUM(accounts.balance) AS balance
+      ${baseQuery} ${filter}
+    `;
 
-    const accountsResult = await database.query(
-      accountsQuery,
-      !data.institution ? [data.userId] : [data.userId, data.institution],
-    );
-
-    const balanceResult = await database.query(
-      balanceQuery,
-      !data.institution ? [data.userId] : [data.userId, data.institution],
-    );
+    const [accountsResult, balanceResult] = await Promise.all([
+      database.query(accountsQuery, params),
+      database.query(balanceQuery, params),
+    ]);
 
     return {
       total_balance: balanceResult.rows[0].balance,
