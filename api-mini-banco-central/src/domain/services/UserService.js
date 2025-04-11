@@ -31,7 +31,12 @@ class UserService {
     }
 
     const account = new Account(data);
-    return await this.userRepository.createAccount(account);
+
+    try {
+      return await this.userRepository.createAccount(account);
+    } catch (error) {
+      throw error;
+    }
   }
 
   async createTransaction(data) {

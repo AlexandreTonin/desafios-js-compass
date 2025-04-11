@@ -13,8 +13,12 @@ class InstitutionService {
       throw error;
     }
 
-    const institution = new Institution(data);
-    return await this.institutionRepository.create(institution);
+    try {
+      const institution = new Institution(data);
+      return await this.institutionRepository.create(institution);
+    } catch (error) {
+      throw error;
+    }
   }
 }
 
