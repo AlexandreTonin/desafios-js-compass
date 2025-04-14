@@ -124,16 +124,16 @@ class UserService {
         institution,
       );
 
-      const received_amount = statement.reduce(
+      const receivedAmount = statement.reduce(
         (acc, current_value) => acc + parseFloat(current_value.received_amount),
         0,
       );
-      const sent_amount = statement.reduce(
+      const sentAmount = statement.reduce(
         (acc, current_value) => acc + parseFloat(current_value.sent_amount),
         0,
       );
 
-      return { received_amount, sent_amount, statement };
+      return { user: { userId, receivedAmount, sentAmount, statement } };
     } catch (error) {
       throw error;
     }

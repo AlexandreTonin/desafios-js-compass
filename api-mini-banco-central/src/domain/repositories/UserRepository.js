@@ -81,7 +81,7 @@ class UserRepository {
     ]);
 
     return {
-      total_balance: balanceResult.rows[0].balance,
+      totalBalance: balanceResult.rows[0].balance,
       accounts: accountsResult.rows,
     };
   }
@@ -89,19 +89,25 @@ class UserRepository {
   async getStatement(userId, institution) {
     let query = `
       SELECT 
-        transactions.*,
-        from_acc.user_id AS from_user_id,
-        to_acc.user_id AS to_user_id,
-        from_inst.name AS from_institution,
-        to_inst.name AS to_institution,
+        transactions.id AS "transactionId",
+        transactions.from_account_id AS "fromAccountId",
+        transactions.to_account_id AS "toAccountId",
+        transactions.transaction_type AS "transactionType",
+        transactions.description as "transactionDescription",
+        transactions.status as "transactionStatus",
+        transactions.created_at as "transactionCreatedAt",
+        from_acc.user_id AS "fromUserId",
+        to_acc.user_id AS "toUserId",
+        from_inst.name AS "fromInstitution",
+        to_inst.name AS "toInstitution",
         CASE 
           WHEN from_acc.user_id = $1 THEN transactions.amount 
           ELSE 0 
-        END AS sent_amount,
+        END AS "sentAmount",
         CASE 
           WHEN to_acc.user_id = $1 THEN transactions.amount 
           ELSE 0 
-        END AS received_amount
+        END AS "receivedAamount"
       FROM transactions
       INNER JOIN accounts AS from_acc ON transactions.from_account_id = from_acc.id
       INNER JOIN accounts AS to_acc ON transactions.to_account_id = to_acc.id
