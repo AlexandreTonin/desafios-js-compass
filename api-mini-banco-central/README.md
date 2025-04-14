@@ -55,11 +55,11 @@ src/                          # Pasta principal do código-fonte
    ```
 
 3. Configure as variáveis de ambiente no arquivo ```.env``` (SERVER_PORT e DATABASE_URL)
-   - <mark>obs: só será necessário preencher o SERVER_PORT, pois o DATABASE_URL já está preparado no container da API no docker</mark>
+   - <mark>obs: a variável DATABASE_URL já está preparado no container da API no docker. Só seria necessário configurar, caso for rodar a API fora do docker.</mark>
    <br>
    
    ```bash
-   cp .env.example .env
+   echo -e "SERVER_PORT=3000\nDATABASE_URL=postgresql://database_user:database_password@localhost:5432/mbc" > .env
    ```
 
 4. Inicie os containers Docker (API e Postgres):
