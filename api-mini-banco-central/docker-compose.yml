@@ -1,4 +1,19 @@
 services:
+  app:
+    build: .
+    container_name: api-mini-banco-central
+    ports:
+      - "${SERVER_PORT}:${SERVER_PORT}"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    environment:
+      - SERVER_PORT=${SERVER_PORT}
+      - DATABASE_URL=postgresql://admin:admin@postgres:5432/mbc
+    depends_on:
+      - postgres
+    restart: unless-stopped
+  
   postgres:
     image: postgres:17
     container_name: api_mbc_postgres
@@ -13,12 +28,6 @@ services:
       - '5432:5432'
     volumes:
       - postgres_data:/var/lib/postgresql/data
-    networks:
-      - mbc_network
 
 volumes:
   postgres_data:
-
-networks:
-  mbc_network:
-    driver: bridge
