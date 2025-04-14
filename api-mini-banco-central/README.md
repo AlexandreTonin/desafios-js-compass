@@ -194,7 +194,7 @@ curl -X POST http://localhost:3000/usuarios/1/transacoes \
 
 ##### Consultar Saldo
 
-```GET``` /usuarios/:id/saldo
+```GET``` ```GET``` ```/usuarios/:id/saldo``` ou com query param ```/usuarios/:id/saldo?instituicao=nubank```
 
 Response Body
 ```json
@@ -228,7 +228,7 @@ curl -X GET http://localhost:3000/usuarios/1/saldo
 
 ##### Consultar Extrato
 
-```GET``` /usuarios/:id/extrato
+```GET``` ```/usuarios/:id/extrato``` ou com query param ```/usuarios/:id/extrato?instituicao=nubank```
 
 Response Body
 ```json
