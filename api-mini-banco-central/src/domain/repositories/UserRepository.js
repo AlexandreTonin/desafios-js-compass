@@ -31,6 +31,7 @@ class UserRepository {
       'completed',
     ]);
 
+    // Update balances atomically - first deduct from source account
     const updateFromAccountBalanceQuery = `
       UPDATE accounts SET balance = balance - $1 WHERE id = $2
     `;
@@ -40,6 +41,7 @@ class UserRepository {
       fromAccountId,
     ]);
 
+    // Then add to destination account
     const updateToAccountBalanceQuery = `
     UPDATE accounts SET balance = balance + $1 WHERE id = $2
   `;
@@ -61,6 +63,7 @@ class UserRepository {
       WHERE user_id = $1
     `;
 
+    // Filter by institution name if provided, using case-insensitive search with accent support
     const filter = hasInstitution
       ? `AND unaccent(institutions.name) ILIKE unaccent($2)`
       : '';
@@ -180,6 +183,7 @@ class UserRepository {
 
     const result = await database.query(query, [userId]);
 
+    // Return boolean indicating whether the institution exists
     return result.rows.length > 0 ? true : false;
   }
 }

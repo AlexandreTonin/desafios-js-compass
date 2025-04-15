@@ -7,6 +7,7 @@ class InstitutionService {
   }
 
   async create(data) {
+    // Validate required fields before attempting to create an institution
     if (!data || !data.name) {
       const error = new Error('Name is required');
       error.status = 400;

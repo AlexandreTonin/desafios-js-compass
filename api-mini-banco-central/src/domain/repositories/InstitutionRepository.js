@@ -40,6 +40,7 @@ class InstitutionRepository {
 
     const result = await database.query(query, [id]);
 
+    // Return boolean indicating whether the institution exists
     return result.rows.length > 0 ? true : false;
   }
 }

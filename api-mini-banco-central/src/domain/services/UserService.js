@@ -29,6 +29,7 @@ class UserService {
 
     const userAccounts = await this.userRepository.getAccounts(data.userId);
 
+    // Check if user already has an account in this institution
     const accountExists = userAccounts.filter(
       (account) => account.institution_id == data.institutionId,
     );
@@ -74,6 +75,7 @@ class UserService {
         throw error;
       }
 
+      // Verify that the user owns the account they're trying to transfer from
       const userIsOwnershipOfAccount =
         await this.userRepository.checkAccountOwnership(
           data.fromAccountId,
@@ -86,6 +88,7 @@ class UserService {
         throw error;
       }
 
+      // Check if the account has sufficient funds for the transaction
       const hasEnoughBalance = await this.userRepository.getAccountBalance(
         data.fromAccountId,
       );
@@ -159,6 +162,7 @@ class UserService {
         institution,
       );
 
+      // Calculate total amounts received and sent from the transaction history
       const receivedAmount = statement.reduce(
         (acc, current_value) => acc + parseFloat(current_value.receivedAmount),
         0,
