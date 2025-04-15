@@ -111,6 +111,56 @@ curl -X POST http://localhost:3000/instituicoes \
   -d '{"name": "Sicredi"}'
 ```
 
+<hr></hr>
+
+##### Listar Instituições
+```GET``` /instituicoes
+
+Response Body:
+```json
+{
+    "success": true,
+    "data": [
+        {
+            "id": 1,
+            "name": "Nubank",
+            "created_at": "2025-04-09T17:32:42.419Z"
+        },
+        ...
+   ]
+}
+```
+
+Exemplo com curl:
+```bash
+curl -X GET http://localhost:3000/instituicoes
+```
+
+<hr></hr>
+
+##### Listar Instituição por ID
+```GET``` /instituicoes/:id
+
+Response Body:
+```json
+{
+    "success": true,
+    "data": [
+        {
+            "id": ID,
+            "name": INSTITUTION,
+            "created_at": TIMESTAMP
+        },
+        ...
+   ]
+}
+```
+
+Exemplo com curl:
+```bash
+curl -X GET http://localhost:3000/instituicoes/1
+```
+
 #### Usuários
 
 <hr></hr>
