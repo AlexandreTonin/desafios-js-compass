@@ -1,10 +1,12 @@
 import { UserRepository } from '../repositories/UserRepository.js';
 import { Account } from '../entities/Account.js';
 import { Transaction } from '../entities/Transaction.js';
+import { InstitutionRepository } from '../repositories/InstitutionRepository.js';
 
 class UserService {
   constructor() {
     this.userRepository = new UserRepository();
+    this.institutionRepository = new InstitutionRepository();
   }
 
   async createAccount(data) {
@@ -13,6 +15,15 @@ class UserService {
         'Missing required fields "institutionId", "userId"',
       );
       error.status = 400;
+      throw error;
+    }
+
+    const institutionExists =
+      await this.institutionRepository.institutionExists(data.institutionId);
+
+    if (!institutionExists) {
+      const error = new Error('Institution not found');
+      error.status = 404;
       throw error;
     }
 
@@ -55,6 +66,14 @@ class UserService {
     }
 
     try {
+      const userExists = await this.userRepository.getUserById(data.userId);
+
+      if (!userExists) {
+        const error = new Error('User not found');
+        error.status = 404;
+        throw error;
+      }
+
       const userIsOwnershipOfAccount =
         await this.userRepository.checkAccountOwnership(
           data.fromAccountId,
@@ -95,6 +114,14 @@ class UserService {
     }
 
     try {
+      const userExists = await this.userRepository.getUserById(data.userId);
+
+      if (!userExists) {
+        const error = new Error('User not found');
+        error.status = 404;
+        throw error;
+      }
+
       const balance = await this.userRepository.getBalance(data);
 
       if (balance.total_balance == null) {
@@ -116,20 +143,28 @@ class UserService {
       throw error;
     }
 
-    const { userId, institution } = data;
-
     try {
+      const userExists = await this.userRepository.getUserById(data.userId);
+
+      if (!userExists) {
+        const error = new Error('User not found');
+        error.status = 404;
+        throw error;
+      }
+
+      const { userId, institution } = data;
+
       const statement = await this.userRepository.getStatement(
         userId,
         institution,
       );
 
       const receivedAmount = statement.reduce(
-        (acc, current_value) => acc + parseFloat(current_value.received_amount),
+        (acc, current_value) => acc + parseFloat(current_value.receivedAmount),
         0,
       );
       const sentAmount = statement.reduce(
-        (acc, current_value) => acc + parseFloat(current_value.sent_amount),
+        (acc, current_value) => acc + parseFloat(current_value.sentAmount),
         0,
       );
 

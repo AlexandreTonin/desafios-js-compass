@@ -107,7 +107,7 @@ class UserRepository {
         CASE 
           WHEN to_acc.user_id = $1 THEN transactions.amount 
           ELSE 0 
-        END AS "receivedAamount"
+        END AS "receivedAmount"
       FROM transactions
       INNER JOIN accounts AS from_acc ON transactions.from_account_id = from_acc.id
       INNER JOIN accounts AS to_acc ON transactions.to_account_id = to_acc.id
@@ -159,6 +159,26 @@ class UserRepository {
     `;
 
     const result = await database.query(query, [accountId, userId]);
+
+    return result.rows.length > 0 ? true : false;
+  }
+
+  async getUserById(userId) {
+    const query = `
+      SELECT * FROM users WHERE id = $1
+    `;
+
+    const result = await database.query(query, [userId]);
+
+    return result.rows[0];
+  }
+
+  async userExists(userId) {
+    const query = `
+      SELECT * FROM users WHERE id = $1
+    `;
+
+    const result = await database.query(query, [userId]);
 
     return result.rows.length > 0 ? true : false;
   }
