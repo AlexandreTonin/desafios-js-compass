@@ -55,7 +55,7 @@ src/                          # Pasta principal do código-fonte
    ```
 
 3. Configure as variáveis de ambiente no arquivo ```.env``` (SERVER_PORT e DATABASE_URL)
-   - <mark>obs: a variável DATABASE_URL já está preparado no container da API no docker. Só seria necessário configurar, caso for rodar a API fora do docker.</mark>
+   - <mark>obs: a variável DATABASE_URL já está preparado no container da API no docker. Só seria necessário configurar, caso fosse rodar a API fora do docker.</mark>
    <br>
    
    ```bash
