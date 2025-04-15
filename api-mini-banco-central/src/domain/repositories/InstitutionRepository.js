@@ -12,6 +12,36 @@ class InstitutionRepository {
 
     return result.rows[0];
   }
+
+  async findAll() {
+    const query = `
+      SELECT * FROM institutions
+    `;
+
+    const result = await database.query(query);
+
+    return result.rows;
+  }
+
+  async findOne(id) {
+    const query = `
+      SELECT * FROM institutions WHERE id = $1
+    `;
+
+    const result = await database.query(query, [id]);
+
+    return result.rows[0];
+  }
+
+  async institutionExists(id) {
+    const query = `
+    SELECT * FROM institutions WHERE id = $1
+  `;
+
+    const result = await database.query(query, [id]);
+
+    return result.rows.length > 0 ? true : false;
+  }
 }
 
 export { InstitutionRepository };

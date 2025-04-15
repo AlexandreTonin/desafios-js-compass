@@ -29,6 +29,50 @@ const institutionController = {
       });
     }
   },
+
+  async findAll(req, res) {
+    try {
+      const institutions = await institutionService.findAll();
+
+      res.status(201).json({
+        success: true,
+        data: institutions,
+      });
+    } catch (error) {
+      const status = error.status || 500;
+      const message = error.message || 'Internal Server Error';
+
+      logger.error(error, message);
+
+      return res.status(status).json({
+        success: false,
+        message,
+      });
+    }
+  },
+
+  async findOne(req, res) {
+    const id = req.params.id;
+
+    try {
+      const institution = await institutionService.findOne(id);
+
+      res.status(201).json({
+        success: true,
+        data: institution,
+      });
+    } catch (error) {
+      const status = error.status || 500;
+      const message = error.message || 'Internal Server Error';
+
+      logger.error(error, message);
+
+      return res.status(status).json({
+        success: false,
+        message,
+      });
+    }
+  },
 };
 
 export { institutionController };

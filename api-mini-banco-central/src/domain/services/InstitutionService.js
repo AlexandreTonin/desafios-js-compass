@@ -20,6 +20,24 @@ class InstitutionService {
       throw error;
     }
   }
+
+  async findAll() {
+    try {
+      const institutions = await this.institutionRepository.findAll();
+      return institutions;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async findOne(id) {
+    try {
+      const institutions = await this.institutionRepository.findOne(id);
+      return institutions;
+    } catch (error) {
+      throw error;
+    }
+  }
 }
 
 export { InstitutionService };
