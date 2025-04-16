@@ -14,12 +14,12 @@ class UserRepository {
   }
 
   async createTransaction(transaction) {
-    const { userId, fromAccountId, toAccountId, amount, description } =
-      transaction;
+    const { fromAccountId, toAccountId, amount, description } = transaction;
 
     const createTransactionQuery = `
       INSERT INTO transactions(from_account_id, to_account_id, transaction_type, amount, description, status) 
-      VALUES ($1, $2, $3, $4, $5, $6) RETURNING *
+      VALUES ($1, $2, $3, $4, $5, $6) 
+      RETURNING id, from_account_id AS "fromAccountId", to_account_id AS "toAccountId", transaction_type AS "transactionType", amount, description, status, created_at AS "createdAt"
     `;
 
     const result = await database.query(createTransactionQuery, [
