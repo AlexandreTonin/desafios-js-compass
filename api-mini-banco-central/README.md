@@ -51,7 +51,7 @@ src/                          # Pasta principal do código-fonte
    
 2. Navegue até o diretório do projeto:
    ```bash
-   cd api-mini-banco-central
+   cd desafios-js-compass/api-mini-banco-central
    ```
 
 3. Configure as variáveis de ambiente no arquivo ```.env``` (SERVER_PORT e DATABASE_URL)
