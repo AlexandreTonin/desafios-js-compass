@@ -1,6 +1,18 @@
 import { database } from '../../shared/config/db.js';
 
 class UserRepository {
+  async createUser(user) {
+    const { name } = user;
+
+    const query = `
+      INSERT INTO users(name) VALUES ($1) RETURNING id, name, created_at AS "createdAt"
+    `;
+
+    const result = await database.query(query, [name]);
+
+    return result.rows[0];
+  }
+
   async createAccount(account) {
     const { userId, institutionId } = account;
 

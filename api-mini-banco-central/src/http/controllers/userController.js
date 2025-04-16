@@ -6,6 +6,33 @@ const userRepository = new UserRepository();
 const userService = new UserService(userRepository);
 
 const userController = {
+  async createUser(req, res) {
+    const { name } = req.body;
+
+    const data = {
+      name,
+    };
+
+    try {
+      const user = await userService.createUser(data);
+
+      res.status(201).json({
+        success: true,
+        data: user,
+      });
+    } catch (error) {
+      const status = error.status || 500;
+      const message = error.message || 'Internal Server Error';
+
+      logger.error(error, message);
+
+      return res.status(status).json({
+        success: false,
+        message,
+      });
+    }
+  },
+
   async createAccount(req, res) {
     const data = req.body;
     const userId = req.params.id;

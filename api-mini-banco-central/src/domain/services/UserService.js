@@ -1,5 +1,6 @@
 import { UserRepository } from '../repositories/UserRepository.js';
 import { Account } from '../entities/Account.js';
+import { User } from '../entities/User.js';
 import { Transaction } from '../entities/Transaction.js';
 import { InstitutionRepository } from '../repositories/InstitutionRepository.js';
 
@@ -7,6 +8,21 @@ class UserService {
   constructor() {
     this.userRepository = new UserRepository();
     this.institutionRepository = new InstitutionRepository();
+  }
+
+  async createUser(data) {
+    if (!data || !data.name) {
+      const error = new Error('Missing required field "name"');
+      error.status = 400;
+      throw error;
+    }
+
+    try {
+      const user = new User(data);
+      return await this.userRepository.createUser(user);
+    } catch (error) {
+      throw error;
+    }
   }
 
   async createAccount(data) {
