@@ -46,7 +46,7 @@ src/                          # Pasta principal do código-fonte
 
 1. Clone o repositório
    ```bash
-   git clone https://github.com/alexandretonin/
+   git clone https://github.com/alexandretonin/desafios-js-compass
    ```
    
 2. Navegue até o diretório do projeto:
