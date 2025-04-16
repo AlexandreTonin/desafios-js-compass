@@ -33,6 +33,50 @@ const userController = {
     }
   },
 
+  async findAll(req, res) {
+    try {
+      const users = await userService.findAll();
+
+      res.status(200).json({
+        success: true,
+        data: users,
+      });
+    } catch (error) {
+      const status = error.status || 500;
+      const message = error.message || 'Internal Server Error';
+
+      logger.error(error, message);
+
+      return res.status(status).json({
+        success: false,
+        message,
+      });
+    }
+  },
+
+  async findOne(req, res) {
+    const userId = req.params.id;
+
+    try {
+      const user = await userService.findOne(userId);
+
+      res.status(200).json({
+        success: true,
+        data: user,
+      });
+    } catch (error) {
+      const status = error.status || 500;
+      const message = error.message || 'Internal Server Error';
+
+      logger.error(error, message);
+
+      return res.status(status).json({
+        success: false,
+        message,
+      });
+    }
+  },
+
   async createAccount(req, res) {
     const data = req.body;
     const userId = req.params.id;

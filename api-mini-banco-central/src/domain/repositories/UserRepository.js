@@ -1,6 +1,16 @@
 import { database } from '../../shared/config/db.js';
 
 class UserRepository {
+  async findAll() {
+    const query = `
+      SELECT id, name, created_at AS "createdAt" FROM users
+    `;
+
+    const result = await database.query(query);
+
+    return result.rows;
+  }
+
   async createUser(user) {
     const { name } = user;
 
@@ -178,9 +188,9 @@ class UserRepository {
     return result.rows.length > 0 ? true : false;
   }
 
-  async getUserById(userId) {
+  async findOne(userId) {
     const query = `
-      SELECT * FROM users WHERE id = $1
+      SELECT id, name, created_at AS "createdAt" FROM users WHERE id = $1
     `;
 
     const result = await database.query(query, [userId]);

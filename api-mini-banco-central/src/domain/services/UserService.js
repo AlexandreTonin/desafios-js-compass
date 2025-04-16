@@ -25,6 +25,34 @@ class UserService {
     }
   }
 
+  async findAll() {
+    try {
+      const users = await this.userRepository.findAll();
+
+      return users;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async findOne(id) {
+    try {
+      const userExists = await this.userRepository.userExists(id);
+
+      if (!userExists) {
+        const error = new Error('User not found');
+        error.status = 404;
+        throw error;
+      }
+
+      const user = await this.userRepository.findOne(id);
+
+      return user;
+    } catch (error) {
+      throw error;
+    }
+  }
+
   async createAccount(data) {
     if (!data || !data.institutionId || !data.userId) {
       const error = new Error(
@@ -83,7 +111,7 @@ class UserService {
     }
 
     try {
-      const userExists = await this.userRepository.getUserById(data.userId);
+      const userExists = await this.userRepository.userExists(data.userId);
 
       if (!userExists) {
         const error = new Error('User not found');
@@ -133,7 +161,7 @@ class UserService {
     }
 
     try {
-      const userExists = await this.userRepository.getUserById(data.userId);
+      const userExists = await this.userRepository.userExists(data.userId);
 
       if (!userExists) {
         const error = new Error('User not found');
@@ -163,7 +191,7 @@ class UserService {
     }
 
     try {
-      const userExists = await this.userRepository.getUserById(data.userId);
+      const userExists = await this.userRepository.userExists(data.userId);
 
       if (!userExists) {
         const error = new Error('User not found');
