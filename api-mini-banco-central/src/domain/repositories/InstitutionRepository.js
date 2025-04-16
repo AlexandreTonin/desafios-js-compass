@@ -5,7 +5,7 @@ class InstitutionRepository {
     const { name } = institution;
 
     const query = `
-      INSERT INTO institutions(name) VALUES ($1) RETURNING *
+      INSERT INTO institutions(name) VALUES ($1) RETURNING id, name, created_at AS "createdAt"
     `;
 
     const result = await database.query(query, [name]);
@@ -15,7 +15,7 @@ class InstitutionRepository {
 
   async findAll() {
     const query = `
-      SELECT * FROM institutions
+      SELECT id, name, created_at as "createdAt" FROM institutions
     `;
 
     const result = await database.query(query);
@@ -25,7 +25,7 @@ class InstitutionRepository {
 
   async findOne(id) {
     const query = `
-      SELECT * FROM institutions WHERE id = $1
+      SELECT id, name, created_at as "createdAt" FROM institutions WHERE id = $1
     `;
 
     const result = await database.query(query, [id]);

@@ -5,7 +5,7 @@ class UserRepository {
     const { userId, institutionId } = account;
 
     const query = `
-      INSERT INTO accounts(user_id, institution_id) VALUES ($1, $2) RETURNING *
+      INSERT INTO accounts(user_id, institution_id) VALUES ($1, $2) RETURNING id, user_id AS "userId", institution_id AS "institutionId", balance, created_at AS "createdAt"
     `;
 
     const result = await database.query(query, [userId, institutionId]);
