@@ -74,7 +74,7 @@ src/                          # Pasta principal do código-fonte
 
 ## 🔥 Teste a API e veja os endpoints pelo POSTMAN
 
-👉  [![Postman](https://img.shields.io/badge/Postman-Download-orange?logo=postman)](https://documenter.getpostman.com/view/32553166/2sB2cbbeR5)
+👉 &nbsp; [![Postman](https://img.shields.io/badge/Postman-FF6C37.svg?style=for-the-badge&logo=Postman&logoColor=white)](https://documenter.getpostman.com/view/32553166/2sB2cbbeR5)
 
 ## 📚 Documentação da API
 
