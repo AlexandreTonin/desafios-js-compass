@@ -71,7 +71,11 @@ src/                          # Pasta principal do código-fonte
    ```bash
    curl -X GET http://localhost:3000/
    ```
-   
+
+## 🔥 Teste a API e veja os endpoints pelo POSTMAN
+
+👉  [![Postman](https://img.shields.io/badge/Postman-Download-orange?logo=postman)](https://documenter.getpostman.com/view/32553166/2sB2cbbeR5)
+
 ## 📚 Documentação da API
 
 ### Endpoints
