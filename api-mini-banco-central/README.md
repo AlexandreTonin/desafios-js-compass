@@ -44,7 +44,7 @@ src/                          # Pasta principal do código-fonte
 
 ## 🔧 Instalação
 
-### ⚡ Rode o projeto em apenas um comando
+### ⚡ Rode o projeto com apenas um comando
 
 ```bash
 git clone https://github.com/alexandretonin/desafios-js-compass && cd desafios-js-compass/api-mini-banco-central && echo -e "SERVER_PORT=3000\nDATABASE_URL=postgresql://database_user:database_password@localhost:5432/mbc" > .env && docker compose --env-file .env up --build -d
