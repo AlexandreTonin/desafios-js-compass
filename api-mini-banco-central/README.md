@@ -44,6 +44,20 @@ src/                          # Pasta principal do código-fonte
 
 ## 🔧 Instalação
 
+### ⚡ Rode o projeto em apenas um comando
+
+```bash
+git clone https://github.com/alexandretonin/desafios-js-compass && cd desafios-js-compass/api-mini-banco-central && echo -e "SERVER_PORT=3000\nDATABASE_URL=postgresql://database_user:database_password@localhost:5432/mbc" > .env && docker compose --env-file .env up --build -d
+```
+
+Teste a API via curl
+```bash
+curl -X GET http://localhost:3000/
+```
+
+OU
+
+### 🔢 Passo a Passo
 1. Clone o repositório
    ```bash
    git clone https://github.com/alexandretonin/desafios-js-compass
@@ -76,7 +90,7 @@ src/                          # Pasta principal do código-fonte
 
 👉 &nbsp; [![Postman](https://img.shields.io/badge/Postman-FF6C37.svg?style=for-the-badge&logo=Postman&logoColor=white)](https://documenter.getpostman.com/view/32553166/2sB2cbbeR5)
 
-## 📚 Documentação da API
+## 📚 Endpoints da API
 
 ### Endpoints
 
