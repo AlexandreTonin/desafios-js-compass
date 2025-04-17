@@ -1,6 +1,7 @@
 import { InstitutionRepository } from '../../domain/repositories/InstitutionRepository.js';
 import { InstitutionService } from '../../domain/services/InstitutionService.js';
 import { logger } from '../../infra/logger/logger.js';
+import { getPaginationParams } from '../../shared/helpers/pagination.js';
 
 const institutionRepository = new InstitutionRepository();
 const institutionService = new InstitutionService(institutionRepository);
@@ -31,12 +32,15 @@ const institutionController = {
   },
 
   async findAll(req, res) {
+    const { page, limit } = getPaginationParams(req.query);
+
     try {
-      const institutions = await institutionService.findAll();
+      const institutions = await institutionService.findAll({ page, limit });
 
       res.status(201).json({
         success: true,
-        data: institutions,
+        data: institutions.data,
+        pagination: institutions.pagination,
       });
     } catch (error) {
       const status = error.status || 500;

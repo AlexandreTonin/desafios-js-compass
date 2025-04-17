@@ -1,6 +1,7 @@
 import { UserService } from '../../domain/services/UserService.js';
 import { UserRepository } from '../../domain/repositories/UserRepository.js';
 import { logger } from '../../infra/logger/logger.js';
+import { getPaginationParams } from '../../shared/helpers/pagination.js';
 
 const userRepository = new UserRepository();
 const userService = new UserService(userRepository);
@@ -34,12 +35,15 @@ const userController = {
   },
 
   async findAll(req, res) {
+    const { page, limit } = getPaginationParams(req.query);
+
     try {
-      const users = await userService.findAll();
+      const users = await userService.findAll({ page, limit });
 
       res.status(200).json({
         success: true,
-        data: users,
+        data: users.data,
+        pagination: users.pagination,
       });
     } catch (error) {
       const status = error.status || 500;

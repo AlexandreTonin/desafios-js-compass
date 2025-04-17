@@ -1,14 +1,22 @@
 import { database } from '../../shared/config/db.js';
 
 class UserRepository {
-  async findAll() {
+  async findAll({ limit, offset }) {
     const query = `
-      SELECT id, name, created_at AS "createdAt" FROM users
+      SELECT id, name, created_at AS "createdAt" FROM users LIMIT $1 OFFSET $2
     `;
+
+    const result = await database.query(query, [limit, offset]);
+
+    return result;
+  }
+
+  async countUsers() {
+    const query = `SELECT COUNT(*) FROM users`;
 
     const result = await database.query(query);
 
-    return result.rows;
+    return result.rows[0].count;
   }
 
   async createUser(user) {

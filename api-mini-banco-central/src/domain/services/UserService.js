@@ -3,6 +3,10 @@ import { Account } from '../entities/Account.js';
 import { User } from '../entities/User.js';
 import { Transaction } from '../entities/Transaction.js';
 import { InstitutionRepository } from '../repositories/InstitutionRepository.js';
+import {
+  getPaginationOffset,
+  getPaginationTotalPages,
+} from '../../shared/helpers/pagination.js';
 
 class UserService {
   constructor() {
@@ -25,11 +29,30 @@ class UserService {
     }
   }
 
-  async findAll() {
-    try {
-      const users = await this.userRepository.findAll();
+  async findAll({ page, limit }) {
+    const offset = getPaginationOffset({ page, limit });
 
-      return users;
+    try {
+      const users = await this.userRepository.findAll({ limit, offset });
+      const total = await this.userRepository.countUsers();
+
+      const totalPages = getPaginationTotalPages({ total, limit });
+
+      if (page > totalPages) {
+        const error = new Error('Page not found');
+        error.status = 404;
+        throw error;
+      }
+
+      return {
+        data: users.rows,
+        pagination: {
+          total: Number(total),
+          totalPages,
+          page,
+          limit,
+        },
+      };
     } catch (error) {
       throw error;
     }

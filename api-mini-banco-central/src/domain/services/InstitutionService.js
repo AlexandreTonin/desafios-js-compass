@@ -1,5 +1,9 @@
 import { InstitutionRepository } from '../repositories/InstitutionRepository.js';
 import { Institution } from '../entities/Institution.js';
+import {
+  getPaginationOffset,
+  getPaginationTotalPages,
+} from '../../shared/helpers/pagination.js';
 
 class InstitutionService {
   constructor() {
@@ -22,10 +26,27 @@ class InstitutionService {
     }
   }
 
-  async findAll() {
+  async findAll({ page, limit }) {
+    const offset = getPaginationOffset({ page, limit });
+
     try {
-      const institutions = await this.institutionRepository.findAll();
-      return institutions;
+      const institutions = await this.institutionRepository.findAll({
+        limit,
+        offset,
+      });
+      const total = await this.institutionRepository.count();
+
+      const totalPages = getPaginationTotalPages({ total, limit });
+
+      return {
+        data: institutions.rows,
+        pagination: {
+          total: Number(total),
+          totalPages,
+          page,
+          limit,
+        },
+      };
     } catch (error) {
       throw error;
     }

@@ -13,14 +13,24 @@ class InstitutionRepository {
     return result.rows[0];
   }
 
-  async findAll() {
+  async findAll({ limit, offset }) {
     const query = `
-      SELECT id, name, created_at as "createdAt" FROM institutions
+      SELECT id, name, created_at as "createdAt" FROM institutions LIMIT $1 OFFSET $2
+    `;
+
+    const result = await database.query(query, [limit, offset]);
+
+    return result;
+  }
+
+  async count() {
+    const query = `
+      SELECT COUNT(*) FROM institutions
     `;
 
     const result = await database.query(query);
 
-    return result.rows;
+    return result.rows[0].count;
   }
 
   async findOne(id) {
