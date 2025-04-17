@@ -131,7 +131,13 @@ Response Body:
             "created_at": "2025-04-09T17:32:42.419Z"
         },
         ...
-   ]
+   ],
+    "pagination": {
+        "total": 1,
+        "totalPages": 1,
+        "page": 1,
+        "limit": 10
+    }
 }
 ```
 
@@ -166,6 +172,96 @@ curl -X GET http://localhost:3000/instituicoes/1
 ```
 
 #### Usuários
+
+<hr></hr>
+
+##### Criar Usuário
+
+```POST``` /usuarios
+
+
+Request Body:
+```json
+{
+    "name": "Alexandre"
+}
+```
+
+Response Body:
+```json
+{
+    "success": true,
+    "data": {
+        "id": ID,
+        "name": "Alexandre",
+        "createdAt": TIMESTAMP
+    }
+}
+```
+
+Exemplo com curl:
+```bash
+curl -X POST http://localhost:3000/usuarios \
+  -H "Content-Type: application/json" \
+  -d '{"name": "Alexandre"}'
+```
+
+<hr></hr>
+
+##### Listar Usuários
+
+```GET``` /usuarios
+
+Response Body:
+```json
+{
+    "success": true,
+    "data": [
+        {
+            "id": 1,
+            "name": "João Silva",
+            "createdAt": "2025-04-17T09:50:25.594Z"
+        },
+      ...
+    ],
+    "pagination": {
+        "total": 1,
+        "totalPages": 1,
+        "page": 1,
+        "limit": 10
+    }
+}
+```
+
+Exemplo com curl:
+```bash
+curl -X GET http://localhost:3000/usuarios
+```
+
+<hr></hr>
+
+##### Listar Usuário por ID
+
+```GET``` /usuarios/:id
+
+Response Body:
+```json
+{
+    "success": true,
+    "data": [
+        {
+            "id": 1,
+            "name": "João Silva",
+            "createdAt": "2025-04-17T09:50:25.594Z"
+        },
+    ]
+}
+```
+
+Exemplo com curl:
+```bash
+curl -X GET http://localhost:3000/usuarios/1
+```
 
 <hr></hr>
 
