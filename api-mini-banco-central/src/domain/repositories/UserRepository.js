@@ -3,7 +3,7 @@ import { database } from '../../shared/config/db.js';
 class UserRepository {
   async findAll({ limit, offset }) {
     const query = `
-      SELECT id, name, created_at AS "createdAt" FROM users LIMIT $1 OFFSET $2
+      SELECT id, name, cpf, created_at AS "createdAt" FROM users LIMIT $1 OFFSET $2
     `;
 
     const result = await database.query(query, [limit, offset]);
@@ -20,25 +20,30 @@ class UserRepository {
   }
 
   async createUser(user) {
-    const { name } = user;
+    const { name, cpf } = user;
 
     const query = `
-      INSERT INTO users(name) VALUES ($1) RETURNING id, name, created_at AS "createdAt"
+      INSERT INTO users(name, cpf) VALUES ($1, $2) RETURNING id, name, created_at AS "createdAt"
     `;
 
-    const result = await database.query(query, [name]);
+    const result = await database.query(query, [name, cpf]);
 
     return result.rows[0];
   }
 
   async createAccount(account) {
-    const { userId, institutionId } = account;
+    const { userId, institutionId, agency, accountNumber } = account;
 
     const query = `
-      INSERT INTO accounts(user_id, institution_id) VALUES ($1, $2) RETURNING id, user_id AS "userId", institution_id AS "institutionId", balance, created_at AS "createdAt"
+      INSERT INTO accounts(user_id, institution_id, institution_agency_id, account_number) VALUES ($1, $2, $3, $4) RETURNING id, user_id AS "userId", institution_id AS "institutionId", institution_agency_id as "agency", account_number as "accountNumber", balance, created_at AS "createdAt"
     `;
 
-    const result = await database.query(query, [userId, institutionId]);
+    const result = await database.query(query, [
+      userId,
+      institutionId,
+      agency,
+      accountNumber,
+    ]);
 
     return result.rows[0];
   }
@@ -198,7 +203,7 @@ class UserRepository {
 
   async findOne(userId) {
     const query = `
-      SELECT id, name, created_at AS "createdAt" FROM users WHERE id = $1
+      SELECT id, name, cpf, created_at AS "createdAt" FROM users WHERE id = $1
     `;
 
     const result = await database.query(query, [userId]);
@@ -215,6 +220,16 @@ class UserRepository {
 
     // Return boolean indicating whether the institution exists
     return result.rows.length > 0 ? true : false;
+  }
+
+  async findByCpf(cpf) {
+    const query = `
+      SELECT id, name, cpf, created_at AS "createdAt" FROM users WHERE cpf = $1
+    `;
+
+    const result = await database.query(query, [cpf]);
+
+    return result.rows[0];
   }
 }
 

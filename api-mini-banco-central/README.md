@@ -197,7 +197,8 @@ curl -X GET http://localhost:3000/instituicoes/1
 Request Body:
 ```json
 {
-    "name": "Alexandre"
+    "name": "Alexandre",
+    "cpf": "111.222.333-99",
 }
 ```
 
@@ -208,6 +209,7 @@ Response Body:
     "data": {
         "id": ID,
         "name": "Alexandre",
+        "cpf": "111.222.333-99",
         "createdAt": TIMESTAMP
     }
 }
@@ -234,6 +236,7 @@ Response Body:
         {
             "id": 1,
             "name": "João Silva",
+            "cpf": "111.222.333-99",
             "createdAt": "2025-04-17T09:50:25.594Z"
         },
       ...
@@ -266,6 +269,7 @@ Response Body:
         {
             "id": 1,
             "name": "João Silva",
+            "cpf": "111.222.333-99",
             "createdAt": "2025-04-17T09:50:25.594Z"
         },
     ]

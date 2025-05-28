@@ -3,7 +3,7 @@ services:
     build: .
     container_name: api-mini-banco-central
     ports:
-      - "${SERVER_PORT}:${SERVER_PORT}"
+      - '${SERVER_PORT}:${SERVER_PORT}'
     volumes:
       - .:/app
       - /app/node_modules
@@ -13,7 +13,7 @@ services:
     depends_on:
       - postgres
     restart: unless-stopped
-  
+
   postgres:
     image: postgres:17
     container_name: api_mbc_postgres
@@ -27,7 +27,7 @@ services:
     ports:
       - '5432:5432'
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - /var/lib/postgresql/data
 
 volumes:
   postgres_data:

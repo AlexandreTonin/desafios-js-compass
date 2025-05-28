@@ -53,6 +53,31 @@ class InstitutionRepository {
     // Return boolean indicating whether the institution exists
     return result.rows.length > 0 ? true : false;
   }
+
+  async getRandomAgency(institutionId) {
+    const query = `
+    SELECT * FROM institution_agencies WHERE id = $1
+  `;
+
+    const result = await database.query(query, [institutionId]);
+
+    const agencies_ids = result.rows.map((row) => row.id);
+    const rowCount = result.rowCount;
+
+    const randomAgency = agencies_ids[Math.floor(Math.random() * rowCount)];
+
+    return randomAgency;
+  }
+
+  async generateAccountNumber() {
+    const query = `
+    SELECT generate_account_number() as "accountNumber";
+    `;
+
+    const result = await database.query(query);
+
+    return result.rows[0].accountNumber;
+  }
 }
 
 export { InstitutionRepository };

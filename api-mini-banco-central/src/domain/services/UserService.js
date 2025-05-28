@@ -15,11 +15,13 @@ class UserService {
   }
 
   async createUser(data) {
-    if (!data || !data.name) {
-      const error = new Error('Missing required field "name"');
+    if (!data || !data.name || !data.cpf) {
+      const error = new Error('Missing required fields "name" or "CPF"');
       error.status = 400;
       throw error;
     }
+
+    data.cpf = data.cpf.replace(/[.\-/]/g, '');
 
     try {
       const user = new User(data);
@@ -108,6 +110,13 @@ class UserService {
       error.status = 400;
       throw error;
     }
+
+    data.agency = await this.institutionRepository.getRandomAgency(
+      data.institutionId,
+    );
+
+    data.accountNumber =
+      await this.institutionRepository.generateAccountNumber();
 
     const account = new Account(data);
 

@@ -8,10 +8,11 @@ const userService = new UserService(userRepository);
 
 const userController = {
   async createUser(req, res) {
-    const { name } = req.body;
+    const { name, cpf } = req.body;
 
     const data = {
       name,
+      cpf,
     };
 
     try {
