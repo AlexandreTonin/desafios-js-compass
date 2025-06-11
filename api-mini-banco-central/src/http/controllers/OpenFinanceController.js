@@ -9,8 +9,7 @@ const openFinanceService = new OpenFinanceService(openFinanceRepository);
 const openFinanceController = {
   async consent(req, res) {
     const { cpf, expirationDate, expiration, authorization } = req.body;
-
-    if (!req.body || !cpf || !expiration || !authorization) {
+    if (!req.body || !cpf || !authorization) {
       return res
         .status(400)
         .json({ success: false, message: 'Missing required fields' });
@@ -53,7 +52,7 @@ const openFinanceController = {
     const { cpf, expirationDate, expiration, authorization } = req.body;
     const { action } = req.params;
 
-    if (!action || !cpf || !expirationDate) {
+    if (!action || !cpf) {
       return res
         .status(400)
         .json({ success: false, message: 'Missing required fields' });
@@ -71,12 +70,12 @@ const openFinanceController = {
       return res.status(200).json({
         success: true,
         message:
-          action == 'accepted'
+          action == 'update'
             ? 'Autorização atualizada com sucesso'
             : 'Autorização revogada com sucesso',
         data: {
-          institution: {
-            name: 'Itaú',
+          account: {
+            institutionName: 'Itaú',
             account: update.account,
             agency: update.agency,
           },

@@ -24,8 +24,8 @@ class OpenFinanceService {
     authorization,
     action,
   }) {
-    if (action !== 'accepted' && action !== 'revoked') {
-      const error = new Error('Action param must be "accepted" or "revoked"');
+    if (action !== 'update' && action !== 'revoke') {
+      const error = new Error('Action param must be "update" or "revoke"');
       error.status = 400;
       throw error;
     }
