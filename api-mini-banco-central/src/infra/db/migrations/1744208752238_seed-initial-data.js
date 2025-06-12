@@ -18,6 +18,9 @@ export const up = async (pgm) => {
       ('José Amaral'),
       ('Renan do Carmo'),
       ('Felipe da Guia'),
+      ('Gabriel Macedo'),
+      ('Fernanda da Silva'),
+      ('Rodrigo Caetano'),
       ('Renato Gaúcho'),
       ('Mazembe Mundial');
   `);
@@ -30,7 +33,10 @@ export const up = async (pgm) => {
       (4, 1, 5000.00),
       (5, 1, 2000.00),
       (6, 1, 1500.00),
-      (7, 1, 2500.00);
+      (7, 1, 2500.00),
+      (8, 1, 3500.00),
+      (9, 1, 4500.00),
+      (10, 1, 5500.00);
   `);
 
   await pgm.sql(`

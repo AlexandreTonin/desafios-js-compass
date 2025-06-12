@@ -5,6 +5,9 @@ export const up = async (pgm) => {
     UPDATE users SET cpf = '12345678903' WHERE name = 'José Amaral';
     UPDATE users SET cpf = '12345678904' WHERE name = 'Renan do Carmo';
     UPDATE users SET cpf = '12345678905' WHERE name = 'Felipe da Guia';
+    UPDATE users SET cpf = '12345678906' WHERE name = 'Gabriel Macedo';
+    UPDATE users SET cpf = '12345678907' WHERE name = 'Fernanda da Silva';
+    UPDATE users SET cpf = '12345678908' WHERE name = 'Rodrigo Caetano';
     UPDATE users SET cpf = '12345678909' WHERE name = 'Renato Gaúcho';
     UPDATE users SET cpf = '12345678910' WHERE name = 'Mazembe Mundial';
     `);
