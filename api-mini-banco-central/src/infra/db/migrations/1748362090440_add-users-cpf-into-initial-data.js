@@ -10,11 +10,16 @@ export const up = async (pgm) => {
     UPDATE users SET cpf = '12345678908' WHERE name = 'Rodrigo Caetano';
     UPDATE users SET cpf = '12345678909' WHERE name = 'Renato Gaúcho';
     UPDATE users SET cpf = '12345678910' WHERE name = 'Mazembe Mundial';
+    UPDATE users SET cpf = '12345678911' WHERE name = 'Andrei Albrecht';
+    UPDATE users SET cpf = '12345678912' WHERE name = 'Alexandre Tonin';
+    UPDATE users SET cpf = '12345678913' WHERE name = 'Ruan Oliveira';
+    UPDATE users SET cpf = '12345678914' WHERE name = 'Marcos Schlick';
+    UPDATE users SET cpf = '12345678915' WHERE name = 'Matheus Aguiar';
   `);
 };
 
 export const down = async (pgm) => {
   await pgm.sql(`
-    UPDATE users SET cpf = NULL WHERE name IN ('João Almeida', 'Maria de Freitas', 'José Amaral', 'Renan do Carmo', 'Felipe da Guia', 'Gabriel Macedo', 'Fernanda da Silva', 'Rodrigo Caetano','Renato Gaúcho', 'Mazembe Mundial');
+    UPDATE users SET cpf = NULL WHERE name IN ('João Almeida', 'Maria de Freitas', 'José Amaral', 'Renan do Carmo', 'Felipe da Guia', 'Gabriel Macedo', 'Fernanda da Silva', 'Rodrigo Caetano','Renato Gaúcho', 'Mazembe Mundial', 'Andrei Albrecht', 'Alexandre Tonin', 'Ruan Oliveira', 'Marcos Schlick', 'Matheus Aguiar');
   `);
 };

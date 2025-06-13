@@ -27,7 +27,12 @@ export const up = async (pgm) => {
         ('Fernanda da Silva'),
         ('Rodrigo Caetano'),
         ('Renato Gaúcho'),
-        ('Mazembe Mundial');
+        ('Mazembe Mundial'),
+        ('Andrei Albrecht'),
+        ('Alexandre Tonin'),
+        ('Ruan Oliveira'),
+        ('Marcos Schlick'),
+        ('Matheus Aguiar');
     `);
 
   await pgm.sql(`
@@ -41,7 +46,12 @@ export const up = async (pgm) => {
         (7, 1, 2500.00);
         (8, 1, 3500.00),
         (9, 1, 4500.00),
-        (10, 1, 5500.00);
+        (10, 1, 5500.00),
+        (11, 1, 2500.00),
+        (12, 1, 1200.00),
+        (13, 1, 2560.00),
+        (14, 1, 4320.00),
+        (15, 1, 3510.00);
     `);
 
   await pgm.sql(`

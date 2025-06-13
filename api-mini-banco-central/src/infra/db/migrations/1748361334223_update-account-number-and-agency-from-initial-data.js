@@ -11,6 +11,11 @@ export const up = async (pgm) => {
     UPDATE accounts SET institution_agency_id = 1 WHERE id = 8;
     UPDATE accounts SET institution_agency_id = 1 WHERE id = 9;
     UPDATE accounts SET institution_agency_id = 1 WHERE id = 10;
+    UPDATE accounts SET institution_agency_id = 1 WHERE id = 11;
+    UPDATE accounts SET institution_agency_id = 1 WHERE id = 12;
+    UPDATE accounts SET institution_agency_id = 1 WHERE id = 13;
+    UPDATE accounts SET institution_agency_id = 1 WHERE id = 14;
+    UPDATE accounts SET institution_agency_id = 1 WHERE id = 15;
   `);
 };
 
