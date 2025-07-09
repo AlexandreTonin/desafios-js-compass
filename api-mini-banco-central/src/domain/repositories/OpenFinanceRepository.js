@@ -6,14 +6,14 @@ const userRepository = new UserRepository();
 class OpenFinanceRepository {
   async consent({ cpf, expiration, expirationDate }) {
     const createAuthorizationQuery = `
-        INSERT INTO open_finance (institution_id, account_id, agency, status, expiration, expiration_date) 
+        INSERT INTO open_finance (institution_id, account_id, agency, status, expiration, expiration_date)
         VALUES ($1, $2, $3, $4, $5, $6);
     `;
 
-    const getUserAccountQuery = `SELECT 'Itaú' as name, 
-    accounts.account_number as account, accounts.id as "accountId", institution_agencies.agency_code as agency 
-    FROM users 
-    JOIN accounts ON users.id = accounts.user_id 
+    const getUserAccountQuery = `SELECT 'Itaú' as name,
+    accounts.account_number as account, accounts.id as "accountId", institution_agencies.agency_code as agency
+    FROM users
+    JOIN accounts ON users.id = accounts.user_id
     JOIN institution_agencies ON accounts.institution_agency_id = institution_agencies.id
     WHERE cpf = $1`;
 
@@ -27,7 +27,7 @@ class OpenFinanceRepository {
       }
 
       await database.query(createAuthorizationQuery, [
-        3,
+        1,
         rows[0].accountId,
         rows[0].agency,
         'accepted',

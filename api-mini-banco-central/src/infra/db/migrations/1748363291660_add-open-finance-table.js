@@ -1,8 +1,9 @@
 export const up = async (pgm) => {
   await pgm.createType('open_finance_status', [
     'accepted',
-    'revoked',
+    'revoke',
     'expired',
+    'update',
   ]);
 
   await pgm.createTable('open_finance', {
@@ -30,5 +31,4 @@ export const up = async (pgm) => {
 
 export const down = async (pgm) => {
   await pgm.dropTable('open_finance');
-  await pgm.dropType('open_finance_status');
 };
